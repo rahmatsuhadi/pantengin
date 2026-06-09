@@ -17,9 +17,10 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movie }) => {
 
   return (
     <Button
+    variant='secondary'
       onClick={() => favorite ? removeFavorite(movie.id) : addFavorite(movie)}
+      className="gap-2 whitespace-nowrap"
       // Ditambahkan shadow-none untuk memaksa menghilangkan bayangan css
-      className="inline-flex items-center gap-2 px-6 py-4 rounded-full glass shadow-none font-medium text-base hover:bg-white/10 transition-all"
     >
       <svg
         className={`w-5 h-5 transition-colors duration-200 ${favorite ? 'text-red-500 fill-red-500' : 'text-text-primary'}`}
