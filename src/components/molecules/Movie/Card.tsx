@@ -44,7 +44,7 @@ export function MovieCard({
                 >
                     <div className="relative aspect-2/3 overflow-hidden shrink-0">
                         <Image
-                            src={getPosterURL(posterPath, "original")}
+                            src={getPosterURL(posterPath, "w342")}
                             alt={title}
                             quality={50}
                             fill
