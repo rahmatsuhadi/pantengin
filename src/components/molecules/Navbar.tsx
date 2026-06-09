@@ -3,9 +3,12 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import BrandLogo from "../atoms/Logo";
+import { useFavorites } from "@/hooks/useFavorites";
 
 export function Navbar() {
-  const total  =  0
+
+  const {favorites} = useFavorites()
+  const total  =  favorites?.length || 0
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
