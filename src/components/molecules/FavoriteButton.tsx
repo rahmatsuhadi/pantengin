@@ -7,9 +7,10 @@ import { useFavorites } from '@/hooks/useFavorites';
 
 interface FavoriteButtonProps {
   movie: Movie;
+  fullWidth?: boolean;
 }
 
-export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movie }) => {
+export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movie, fullWidth }) => {
   const { isFavorite, addFavorite, removeFavorite, isMounted } = useFavorites();
   const favorite = isFavorite(movie.id);
 
@@ -17,10 +18,10 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movie }) => {
 
   return (
     <Button
-    variant='secondary'
+      variant='secondary'
       onClick={() => favorite ? removeFavorite(movie.id) : addFavorite(movie)}
       className="gap-2 whitespace-nowrap"
-      // Ditambahkan shadow-none untuk memaksa menghilangkan bayangan css
+      fullWidth={fullWidth}
     >
       <svg
         className={`w-5 h-5 transition-colors duration-200 ${favorite ? 'text-red-500 fill-red-500' : 'text-text-primary'}`}

@@ -134,14 +134,14 @@ export function DetailContent({ movie }: DetailContentProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: staggerDelay * 8, duration: 0.4 }}
-                className="flex gap-3"
+                className="flex flex-col sm:flex-row flex-wrap gap-3 w-full"
             >
                 {trailerUrl && (
                     <a
                         href={trailerUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex whitespace-nowrap items-center gap-2 px-6 py-3 rounded-full bg-accent-primary text-white font-medium hover:bg-accent-primary-hover transition-all shadow-glow hover:shadow-lg hover:shadow-blue-500/30"
+                        className="inline-flex whitespace-nowrap items-center justify-center gap-2 px-6 py-3 rounded-full bg-accent-primary text-white font-medium hover:bg-accent-primary-hover transition-all shadow-glow hover:shadow-lg hover:shadow-blue-500/30 w-full sm:w-auto"
                     >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z" />
@@ -149,7 +149,7 @@ export function DetailContent({ movie }: DetailContentProps) {
                         Watch Trailer
                     </a>
                 )}
-                <FavoriteButton movie={movie} />
+                <FavoriteButton movie={movie} fullWidth />
             </motion.div>
         </div>
     );
