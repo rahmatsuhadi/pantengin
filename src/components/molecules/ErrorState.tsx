@@ -4,7 +4,7 @@ interface ErrorStateProps {
   title?: string;
 }
 
-export default function ErrorState({ title = 'Oops! Failed to Load Data', message  = `We couldn&apos;t load the movie list right now. Please check your internet connection or try refreshing the page.`}: ErrorStateProps) {
+export default function ErrorState({ title = 'Oops! Failed to Load Data', message  = `We couldn't load the movie list right now. Please check your internet connection or try refreshing the page.`}: ErrorStateProps) {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6">

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Navbar } from "@/components/organisms/Navbar";
+import { Navbar } from "@/components/molecules/Navbar";
 
 export default function Error({
   error,
