@@ -2,7 +2,7 @@ import { MovieResponse } from "@/types";
 
 
 export async function getPopularMoviesClient(page = 1): Promise<MovieResponse> {
-    const res = await fetch(`/api/movies/popular?page=${page}`);
+    const res = await fetch(`/api/movies?page=${page}`);
     if (!res.ok) throw new Error("ERROR: failed get data popular");
     return res.json();
 }
