@@ -1,8 +1,8 @@
 
 
-export interface Genre{
-  id:number
-    name: string
+export interface Genre {
+  id: number
+  name: string
 }
 
 export interface Movie {
@@ -17,6 +17,40 @@ export interface Movie {
   overview: string;
   genre_ids?: number[];
   genre_names: string[]
+}
+
+
+export interface Cast {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+}
+
+export interface MovieDetail extends Movie {
+  genres: Genre[];
+  runtime: number;
+  tagline: string;
+  budget?: number;
+  revenue?: number;
+  original_language?: string;
+  credits?: {
+    cast: Cast[];
+    crew?: {
+      id: number;
+      name: string;
+      job: string;
+    }[];
+  };
+  videos?: {
+    results: {
+      id: string;
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }[];
+  };
 }
 
 

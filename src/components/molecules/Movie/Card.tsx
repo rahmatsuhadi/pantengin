@@ -36,7 +36,7 @@ export function MovieCard({
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="h-full"
         >
-            <Link href={`/movie/${id}`} className="group block h-full">
+            <Link href={`/movies/${id}`} className="group block h-full">
                 <div
                     className="relative overflow-hidden rounded-card bg-bg-surface-1 border border-zinc-800/50
                      transition-all duration-300 movie-card-hover
@@ -44,12 +44,11 @@ export function MovieCard({
                 >
                     <div className="relative aspect-2/3 overflow-hidden shrink-0">
                         <Image
-                            src={getPosterURL(posterPath)}
+                            src={getPosterURL(posterPath, "original")}
                             alt={title}
-
-                            quality={70}
+                            quality={50}
                             fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                             priority={index < 10}
                         />
