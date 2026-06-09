@@ -1,4 +1,4 @@
-import { Genre, Movie, MovieResponse } from "@/types";
+import { Genre, Movie, MovieDetail, MovieResponse } from "@/types";
 import { env } from "./config";
 
 export class TMDBService {
@@ -14,17 +14,21 @@ export class TMDBService {
         if (!this.apiKey) {
             throw new Error("TMDB API Key not defined")
         }
+        
 
         const queryParams = new URLSearchParams({
-            apiKey: this.apiKey,
+            api_key: this.apiKey,
             language: 'en-US',
             include_adult: 'false',
             ...params,
         })
 
+
         const url = `${this.baseUrl}${endpoint}?${queryParams.toString()}`;
+        console.log(url)
 
         const res = await fetch(url, {
+            
             next: { revalidate }
         })
 
@@ -37,12 +41,14 @@ export class TMDBService {
 
     public async getGenres(): Promise<Genre[]> {
         "cache"
-        const data = await this.fetchTMDB<{ genres: Genre[] }>('/genre/mobie/list');
+        const data = await this.fetchTMDB<{ genres: Genre[] }>('/genre/movie/list');
         return data.genres;
     }
 
     public async getMovie(page = 1) {
         const today = new Date().toISOString().split('T')[0];
+        
+
 
         const data = await this.fetchTMDB<MovieResponse>('/discover/movie', {
             'page': page.toString(),
@@ -97,6 +103,15 @@ export class TMDBService {
             };
         });
     }
+
+  public async getMovieDetailServer(id: string): Promise<MovieDetail> {
+    const request = await this.fetchTMDB<MovieDetail>(`/movie/${id}`, {
+      append_to_response: 'videos,credits'
+    });
+
+    return {...request, genre_names: request.genres.map((item) => item.name)}
+
+  }
 }
 
 export const tmdbServer = new TMDBService();

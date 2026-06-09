@@ -20,6 +20,38 @@ export interface Movie {
 }
 
 
+export interface MovieDetail extends Movie {
+  genres: Genre[];
+  runtime: number;
+  tagline: string;
+  budget?: number;
+  revenue?: number;
+  original_language?: string;
+  credits?: {
+    cast: {
+      id: number;
+      name: string;
+      character: string;
+      profile_path: string | null;
+    }[];
+    crew?: {
+      id: number;
+      name: string;
+      job: string;
+    }[];
+  };
+  videos?: {
+    results: {
+      id: string;
+      key: string;
+      name: string;
+      site: string;
+      type: string;
+    }[];
+  };
+}
+
+
 export interface MovieResponse {
   page: number;
   results: Movie[];
