@@ -8,7 +8,10 @@ export async function GET(request: Request) {
   try {
     const data = await tmdbServer.getMovie(Number(page));
     return NextResponse.json(data);
-  } catch (e) {
+  } catch (e: any) {
+    if (e instanceof Error && e.message === "TMDB_RATE_LIMIT") {
+      return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429 });
+    }
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -56,7 +56,7 @@ export default function MovieContainer({ initialQuery = '' }: MovieContainerProp
 
     const isSearching = debouncedSearch.trim() !== "";
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
         useMovieSearch(debouncedSearch);
 
     const movies = useMemo(() => {
@@ -82,7 +82,7 @@ export default function MovieContainer({ initialQuery = '' }: MovieContainerProp
                 {isLoading ? (
                     <MovieGridSkleton />
                 ) : isError ? (
-                    <ErrorState />
+                    <ErrorState error={error} />
                 ) : movies.length === 0 ? (
                     <EmptyState isSearching={isSearching} query={debouncedSearch} />
                 ) : (
@@ -103,7 +103,7 @@ export default function MovieContainer({ initialQuery = '' }: MovieContainerProp
                 )}
 
                 <div className="flex justify-center items-center w-full mt-10">
-                    {!hasNextPage && <Text>No more movies to show</Text>}
+                    {!hasNextPage && !!data && <Text>No more movies to show</Text>}
                 </div>
 
             </motion.div>

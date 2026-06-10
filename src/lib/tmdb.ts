@@ -43,6 +43,10 @@ export class TMDBService {
             return notFound();
         }
 
+        if (res.status === 429) {
+            throw new Error("TMDB_RATE_LIMIT");
+        }
+
         const response = await res.json()
 
         if (!res.ok) {

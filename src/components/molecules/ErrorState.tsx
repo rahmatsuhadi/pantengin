@@ -1,11 +1,19 @@
 import { Text } from "../atoms/Text";
 
 interface ErrorStateProps {
+  error?: { message: string };
   message?: string;
   title?: string;
 }
 
-export default function ErrorState({ title = 'Oops! Failed to Load Data', message  = `We are working on fixing this. Please try again in a few moments.`}: ErrorStateProps) {
+export default function ErrorState({ error, }: ErrorStateProps) {
+  const isLimit = error?.message === "API_RATE_LIMIT";
+  const displayTitle = isLimit ? "API Limit Reached" : 'Oops! Failed to Load Data';
+  const displayMessage = isLimit
+    ? "You have made too many requests in a short period. Please wait a few moments before trying again."
+    : "We are working on fixing this. Please try again in a few moments.";
+
+
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
       <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6">
@@ -14,10 +22,9 @@ export default function ErrorState({ title = 'Oops! Failed to Load Data', messag
         </svg>
       </div>
       <Text variant="subheader" className="tont-semibold text-primary text-xl mb-2">
-        {title}
+        {displayTitle}
       </Text>
-      <Text variant="caption" className="text-secondary text-base max-w-md">{message}</Text>
-
+      <Text variant="caption" className="text-secondary text-base max-w-md">{displayMessage}</Text>
     </div>
   );
 }
