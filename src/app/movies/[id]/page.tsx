@@ -39,7 +39,7 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
       <HeaderDetailMovie />
       <div className="relative h-[50vh] sm:h-[60vh] lg:h-[70vh] overflow-hidden">
         <Image
-          src={getPosterURL(movie.backdrop_path, "original")}
+          src={getPosterURL(movie.backdrop_path, "w780")}
           alt={movie.title}
           quality={75}
           fill

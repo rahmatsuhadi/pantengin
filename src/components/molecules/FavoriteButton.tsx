@@ -16,7 +16,18 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movie, fullWidth
   const { isFavorite, addFavorite, removeFavorite, isMounted } = useFavorites();
   const favorite = isFavorite(movie.id);
 
-  if (!isMounted) return null;
+  if (!isMounted) return (
+    <Button
+      variant='secondary'
+      className="gap-2 whitespace-nowrap"
+      fullWidth={fullWidth}
+    >
+      <Heart className={`w-5 h-5 transition-colors duration-200 text-primary'}`} />
+      <Text className='text-white'>
+        { 'Add to Favorite'}
+      </Text>
+    </Button>
+  );
 
   return (
     <Button
@@ -25,7 +36,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movie, fullWidth
       className="gap-2 whitespace-nowrap"
       fullWidth={fullWidth}
     >
-      <Heart className={`w-5 h-5 transition-colors duration-200 ${favorite ? 'text-red-500 fill-red-500' : 'text-primary'}`}/>
+      <Heart className={`w-5 h-5 transition-colors duration-200 ${favorite ? 'text-red-500 fill-red-500' : 'text-primary'}`} />
       <Text className='text-white'>
         {favorite ? 'Remove from Favorite' : 'Add to Favorite'}
       </Text>

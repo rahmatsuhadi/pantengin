@@ -1,4 +1,4 @@
-type PosterSize =  'w185' | 'w342' |  'w500' |'original';
+type PosterSize =  'w185' | 'w342' |  'w500' | 'w780' |'original';
 
 export const getPosterURL = (path: string | null, size: PosterSize = 'w500') => {
     return path 
