@@ -5,3 +5,9 @@ export const getPosterURL = (path: string | null, size: PosterSize = 'w500') => 
         ? `https://image.tmdb.org/t/p/${size}${path}`
         : 'https://placehold.co/300x400?text=No+Image';
 };
+
+export const formatMoney = (amount?: number) => {
+        if (!amount) return null;
+        if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+        return `$${amount.toLocaleString()}`;
+}

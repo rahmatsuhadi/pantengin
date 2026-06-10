@@ -16,8 +16,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Pantengin - Smart Movie Search App",
-  description: "Aplikasi pencarian film pintar dengan performa tinggi dan UI/UX premium.",
+  title: "Pantengin - Movie Search App",
+  description: "Browse the most popular movies, search for your favorites, and explore comprehensive movie details with Pantengin.",
 };
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-full flex flex-col  bg-bg-primary text-text-primary font-sans" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col  bg-background text-primary font-sans" suppressHydrationWarning>
         <QueryProvider>
           {children}
         </QueryProvider>

@@ -60,8 +60,8 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-bg-primary via-bg-primary/60 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-r from-bg-primary/40 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-background/40 to-transparent" />
       </div>
 
 

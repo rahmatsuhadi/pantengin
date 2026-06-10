@@ -1,4 +1,6 @@
+import { Button } from "@/components/atoms/Button";
 import BrandLogo from "@/components/atoms/Logo";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function HeaderDetailMovie() {
@@ -9,17 +11,17 @@ export default function HeaderDetailMovie() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <BrandLogo />
-
-
-                        <Link
-                            href="/"
-                            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors rounded-full hover:bg-bg-surface-2"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
+                            <Button 
+                            as={Link}
+                             href="/"
+                             size="sm"
+                             variant="ghost"
+                            >
+                                <ArrowLeft/>
                             Back
-                        </Link>
+                            </Button>
+
+                        
                     </div>
                 </div>
             </div>

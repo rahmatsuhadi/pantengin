@@ -31,7 +31,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     return (
       <div
         ref={ref}
-        className={`relative inline-flex shrink-0 overflow-hidden rounded-full bg-bg-surface-2 ${sizes[size]} ${className}`}
+        className={`relative inline-flex shrink-0 overflow-hidden rounded-full bg-surface-2 ${sizes[size]} ${className}`}
         {...props}
       >
         {src ? (
@@ -43,7 +43,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
             sizes={size === "xl" ? "64px" : size === "lg" ? "48px" : size === "md" ? "40px" : "32px"}
           />
         ) : (
-          <span className="flex h-full w-full items-center justify-center font-medium text-text-secondary">
+          <span className="flex h-full w-full items-center justify-center font-medium text-secondary">
             {initials}
           </span>
         )}

@@ -14,10 +14,10 @@ export default function BrandLogo(){
                 </svg>
               </motion.div>
               <div>
-                <span className="font-display font-bold text-text-primary text-lg tracking-tight">
+                <span className="font-display font-bold text-primary text-lg tracking-tight">
                   Pan<span className="text-accent-primary">tengin</span>
                 </span>
-                <span className="hidden sm:inline ml-2 text-xs text-text-muted font-medium">
+                <span className="hidden sm:inline ml-2 text-xs text-muted font-medium">
                   Movies
                 </span>
               </div>

@@ -1,3 +1,4 @@
+import { Text } from "../atoms/Text";
 
 interface ErrorStateProps {
   message?: string;
@@ -12,12 +13,11 @@ export default function ErrorState({ title = 'Oops! Failed to Load Data', messag
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
       </div>
-      <h3 className="font-display font-semibold text-text-primary text-xl mb-2">
+      <Text variant="subheader" className="tont-semibold text-primary text-xl mb-2">
         {title}
-      </h3>
-      <p className="text-text-secondary text-base max-w-md">
-        {message}
-      </p>
+      </Text>
+      <Text variant="caption" className="text-secondary text-base max-w-md">{message}</Text>
+
     </div>
   );
 }

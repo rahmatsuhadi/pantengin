@@ -4,34 +4,37 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import BrandLogo from "../atoms/Logo";
 import { useFavorites } from "@/hooks/useFavorites";
+import { Text } from "../atoms/Text";
+import { Button } from "../atoms/Button";
 
 export function Navbar() {
 
-  const {favorites} = useFavorites()
-  const total  =  favorites?.length || 0
+  const { favorites } = useFavorites()
+  const total = favorites?.length || 0
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="glass">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <BrandLogo/>
+            <BrandLogo />
 
             <nav className="flex items-center gap-1">
-              <Link
-                href="/"
-                className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors rounded-full hover:bg-bg-surface-2"
-              >
+              <Button
+                size="sm"
+                as={Link}
+                variant="ghost"
+                href={"/"}>
                 Home
-              </Link>
-              <Link 
-                href="/favorites" 
-                className="relative px-4 py-2 text-sm font-medium text-text-secondary hover:text-accent-secondary transition-colors rounded-full hover:bg-bg-surface-2 group"
+              </Button>
+              <Link
+                href="/favorites"
+                className="relative px-4 py-2 text-sm font-medium text-secondary hover:text-accent-secondary transition-colors rounded-full hover:bg-surface-2 group"
               >
                 Favorites
-                <span className="ml-1.5 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full bg-accent-secondary/20 text-accent-secondary">
+                <Text variant="caption" className="ml-1.5 inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full bg-accent-secondary/20 text-accent-secondary">
                   {total}
-                </span>
+                </Text>
               </Link>
             </nav>
           </div>

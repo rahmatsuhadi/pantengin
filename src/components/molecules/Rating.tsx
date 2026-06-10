@@ -62,13 +62,13 @@ export function Rating({ value = 0, max = 10, size = "md", showValue = true }: R
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-bold font-display text-text-primary">
+          <span className="font-bold font-display text-primary">
             {value.toFixed(1)}
           </span>
         </div>
       </div>
       {showValue && (
-        <span className="text-sm text-text-secondary">
+        <span className="text-sm text-secondary">
           / {max}
         </span>
       )}

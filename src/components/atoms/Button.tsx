@@ -1,23 +1,29 @@
 import React from 'react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface BaseButtonProps {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
-  // Kita tambahkan fullWidth opsional agar pas ditaruh di mobile layout
-  fullWidth?: boolean; 
+  className?: string;
+  fullWidth?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
+export type ButtonProps<C extends React.ElementType> = BaseButtonProps & {
+  as?: C;
+} & Omit<React.ComponentPropsWithoutRef<C>, keyof BaseButtonProps | 'as'>;
+
+export const Button = <C extends React.ElementType = 'button'>({
+  children,
+  variant = 'primary',
+  size = 'md',
   fullWidth = false,
-  className = '', 
-  ...props 
-}) => {
-  // Ubah inline-flex menjadi flex agar utility fullWidth (w-full) bekerja 100% normal
+  className = '',
+  as,
+  ...props
+}: ButtonProps<C>) => {
+const Component = as || 'button';
+
   const baseStyles = "flex sm:inline-flex items-center justify-center rounded-full font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-center";
-  
+
   const variants = {
     primary: "bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/20",
     secondary: "bg-zinc-800 text-zinc-50 hover:bg-zinc-700 border border-zinc-700",
@@ -34,11 +40,11 @@ export const Button: React.FC<ButtonProps> = ({
   const widthStyle = fullWidth ? "w-full sm:w-auto" : "";
 
   return (
-    <button 
+    <Component
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${widthStyle} ${className}`.trim()}
       {...props}
     >
       {children}
-    </button>
+    </Component>
   );
 };

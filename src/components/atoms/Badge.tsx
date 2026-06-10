@@ -10,7 +10,7 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ children, variant = "default", size = "md", className = "", ...props }, ref) => {
     const variants = {
-      default: "bg-bg-surface-2 text-text-secondary",
+      default: "bg-surface-2 text-secondary",
       primary: "bg-accent-primary/20 text-accent-primary",
       secondary: "bg-accent-secondary/20 text-accent-secondary",
       success: "bg-green-500/20 text-green-400",
