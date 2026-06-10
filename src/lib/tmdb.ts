@@ -39,7 +39,6 @@ export class TMDBService {
             next: { revalidate }
         })
 
-
         if (res.status === 404) {
             return notFound();
         }
@@ -66,6 +65,20 @@ export class TMDBService {
         })
         const cleanData = await this.formatResults(data.results)
         return { ...data, results: cleanData }
+    }
+
+
+    public async getUpcoming(): Promise<Movie[]> {
+        "cache"
+        try {
+            console.log("CACHE")
+            const response = await this.fetchTMDB<MovieResponse>('/movie/upcoming');
+            const cleanData = await this.formatResults(response.results)
+            const movies = cleanData.slice(0, 5);
+            return movies
+        } catch (error) {
+            return []
+        }
     }
 
     public async getMovieDetailServer(id: string): Promise<MovieDetail> {
