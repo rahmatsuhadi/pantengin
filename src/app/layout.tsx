@@ -30,7 +30,6 @@ export default function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${inter.variable} h-full antialiased`}
       suppressHydrationWarning
-      data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col  bg-background text-primary font-sans" suppressHydrationWarning>
         <QueryProvider>
