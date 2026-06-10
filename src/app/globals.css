@@ -4,18 +4,18 @@
   --font-display: "Plus Jakarta Sans", "Outfit", sans-serif;
   --font-body: "Inter", sans-serif;
 
-  --color-bg-primary: #09090B;
-  --color-bg-surface-1: #18181B;
-  --color-bg-surface-2: #27272A;
+  --color-background: #09090B;
+  --color-surface-1: #18181B;
+  --color-surface-2: #27272A;
 
   --color-accent-primary: #3B82F6;
   --color-accent-primary-hover: #2563EB;
   --color-accent-secondary: #F59E0B;
   --color-accent-destructive: #EF4444;
 
-  --color-text-primary: #FAFAFA;
-  --color-text-secondary: #A1A1AA;
-  --color-text-muted: #52525B;
+  --color-primary: #FAFAFA;
+  --color-secondary: #A1A1AA;
+  --color-muted: #52525B;
 
   --radius-full: 9999px;
   --radius-card: 1rem;
@@ -26,14 +26,14 @@
 }
 
 :root {
-  --background: var(--color-bg-primary);
-  --foreground: var(--color-text-primary);
+  --background: var(--color-background);
+  --foreground: var(--color-primary);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: var(--color-bg-primary);
-    --foreground: var(--color-text-primary);
+    --background: var(--color-background);
+    --foreground: var(--color-primary);
   }
 }
 
@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -95,9 +95,9 @@ h1, h2, h3, h4, h5, h6 {
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--color-bg-surface-1) 25%,
-    var(--color-bg-surface-2) 50%,
-    var(--color-bg-surface-1) 75%
+    var(--color-surface-1) 25%,
+    var(--color-surface-2) 50%,
+    var(--color-surface-1) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
