@@ -1,7 +1,7 @@
 # Pantengin - Movie Search App
 
 <p align="center">
-    <img src="public/favicon.ico" width="80" alt="Pantengin Logo">
+    <img src="public/images/logo.png" width="80" alt="Pantengin Logo">
 </p>
 
 <h1 align="center">Pantengin - Movie Search App</h1>
@@ -121,7 +121,7 @@ Pastikan Node.js sudah terinstal di sistem Anda (direkomendasikan menggunakan ve
 Jika terdapat waktu alokasi pengembangan lebih, berikut fitur yang ingin saya tambahkan di masa depan:
 - **Filterisasi Lanjutan (Advanced Filtering):** Menambahkan sistem filter agar pengguna tidak hanya bisa mencari berdasarkan kata kunci judul, tetapi juga dapat menyaring film secara spesifik berdasarkan Genre, Tahun Rilis, atau kategori lainnya.
 - **Pengurutan Data (Sorting):** Menyediakan fitur untuk mengurutkan hasil pencarian atau daftar film (misalnya: dari rating yang paling tinggi, atau dari film yang paling baru dirilis).
-- **Proteksi API & Server-Side Rate Limiting**: Menerapkan sistem pembatasan request (*rate limiting*) di sisi server menggunakan Next.js Edge Middleware (misalnya dengan Redis/Upstash) pada route `/api/movies/*` demi melindungi endpoint dari eksploitasi pihak luar dan mencegah lonjakan biaya/limit TMDB API key.
+- **Proteksi API & Server-Side Rate Limiting**: Menerapkan sistem pembatasan request (*rate limiting*) di sisi server Next.js  pada route `/api/movies/*` demi melindungi endpoint dari eksploitasi pihak luar dan mencegah lonjakan limit TMDB API key.
 - **JSON-LD Structured Data untuk SEO**: Menyematkan kode JSON-LD dengan skema data terstruktur (Schema.org/Movie) di halaman detail film (`/movies/[id]`) yang dirender di server. Hal ini akan mempermudah bot perayap (crawler) mengenali isi halaman secara semantik dan memicu tampilan *rich snippets* di hasil pencarian mesin pencari.
-- **Offline-First Capabilities (PWA)**: Mengintegrasikan Service Worker (menggunakan Workbox) untuk mendownload dan menyimpan poster film serta informasi detail film yang dimasukkan pengguna ke daftar favorit. Pengguna tetap dapat mengakses halaman favorit mereka secara visual lengkap dengan poster filmnya walaupun dalam keadaan offline.
+- **Offline-First Capabilities (PWA)**: Mengintegrasikan Service Worker  untuk mendownload dan menyimpan poster film serta informasi detail film yang dimasukkan pengguna ke daftar favorit. Pengguna tetap dapat mengakses halaman favorit mereka secara lengkap dengan poster filmnya walaupun dalam keadaan offline.
 - **Automated Testing:** Menambahkan pengujian kode otomatis (Unit Testing / E2E Testing) untuk memastikan fitur-fitur krusial seperti pencarian dan daftar favorit selalu berjalan normal tanpa error saat ada penambahan fitur baru.
