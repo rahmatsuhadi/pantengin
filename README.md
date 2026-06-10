@@ -78,8 +78,8 @@ Pastikan Node.js sudah terinstal di sistem Anda (direkomendasikan menggunakan ve
 3. **Setup Environment Variables:**
    Buat file `.env.local` di *root directory* dan masukkan konfigurasi API TMDB Anda:
    ```env
-   NEXT_PUBLIC_TMDB_API_KEY=api_key_anda_disini
-   NEXT_PUBLIC_TMDB_BASE_URL=https://api.themoviedb.org/3
+   TMDB_API_KEY=api_key_anda_disini
+   TMDB_BASE_URL=https://api.themoviedb.org/3
    ```
 
 4. **Jalankan local development server:**
@@ -100,16 +100,28 @@ Pastikan Node.js sudah terinstal di sistem Anda (direkomendasikan menggunakan ve
 
 ## Keputusan Arsitektur (Architectural Decisions)
 
-1. **Next.js App Router:** Saya memilih Next.js agar halaman detail film bisa diproses langsung dari server (Server-Side Rendering). Ini membuat halaman lebih cepat dimuat saat pertama kali dibuka dan sangat bagus agar aplikasi mudah dikenali oleh mesin pencari (SEO).
-2. **React Query (TanStack Query):** Saya menggunakan React Query di halaman utama untuk menangani pengambilan data dari API. Library ini sangat membantu untuk membuat fitur *Infinite Scroll* dan menyimpan sementara hasil pencarian (cache) agar aplikasi tidak berulang kali memanggil API yang sama, sehingga performa terasa jauh lebih cepat dan hemat kuota.
-3. **Zustand:** Untuk menyimpan data seperti daftar film favorit, saya memilih Zustand karena pengaturannya yang sederhana dan ringkas. Dengan tambahan fitur `persist` bawaan Zustand, daftar favorit pengguna otomatis tersimpan dengan aman di `LocalStorage` tanpa perlu menulis logika penyimpanan manual.
-4. **Halaman Detail Terpisah (Bukan Popup/Modal):** , saya memutuskan untuk membuat halaman detail terpisah (contoh: `/movie/[id]`) alih-alih menggunakan *popup*. Alasannya adalah **SEO & Shareability**; setiap film memiliki URL unik yang bisa diindeks oleh mesin pencari dan mudah dibagikan (di-copy) ke orang lain. Selain itu, ini mencegah halaman utama menjadi terlalu berat karena menumpuk banyak elemen *popup* di memori.
-5. **Infinite Scroll (Tanpa Tombol Pagination):** Untuk navigasi data yang banyak, saya memilih *Infinite Scroll* karena memberikan pengalaman pengguna (UX) yang jauh lebih mulus dan modern. Pengguna tidak perlu repot menekan tombol "Next Page" berulang kali. Khusus untuk konten visual seperti poster film, cara ini terbukti lebih efektif untuk membuat pengguna nyaman.
-6. **Struktur Kode yang Rapi (Separation of Concerns):** Saya memisahkan secara tegas antara kode untuk tampilan/visual (komponen UI) dan kode logika (seperti cara mengambil data API, pencarian, dll) ke dalam folder yang berbeda. Tujuannya agar struktur project menjadi sangat rapi, mudah dibaca, dan mudah dikembangkan lebih lanjut.
+1. **Pemilihan Next.js (Framework Utama)**: Memilih Next.js karena merupakan framework modern standar industri yang menawarkan developer experience (DX) yang luar biasa dengan fitur App Router berbasis folder. Next.js mempermudah penulisan hybrid application dengan menggabungkan keunggulan Server Components (untuk efisiensi render) dan Client Components (untuk interaktivitas tinggi), serta memiliki optimasi performa *build* bawaan yang sangat baik.
+2. **Server-Side Rendering (SSR) untuk Halaman Detail Film**: Pengambilan data detail film (`/movies/[id]`) dilakukan di server menggunakan SSR. Keputusan ini didasari oleh:
+   - **Dynamic Metadata & SEO**: Memungkinkan pembuatan meta tag secara dinamis (seperti judul film, deskripsi, dan gambar poster OpenGraph) sebelum HTML dikirim ke browser. Ini sangat penting agar setiap tautan film yang dibagikan ke media sosial dapat menampilkan preview yang menarik dan mempermudah pengindeksan oleh search engine crawlers.
+   - **Zero Client-Side Spinner**: Semua data inti film dimuat langsung di server, sehingga halaman tersaji secara utuh saat dibuka pertama kali. Pengguna tidak perlu menghadapi jeda skeleton loader atau spinner tambahan untuk konten utamanya, yang secara signifikan mengoptimalkan First Contentful Paint (FCP).
+3. **React Query (TanStack Query) untuk Data Fetching & Caching**: Digunakan di halaman utama untuk mengelola status pengambilan data API. Keunggulannya adalah manajemen *cache* otomatis dan fitur `useInfiniteQuery` yang mempermudah implementasi *Infinite Scroll* tanpa membebani browser dengan pemanggilan API berulang untuk kata kunci yang sama.
+4. **Zustand untuk State Management Client-Side**: Dipilih untuk mengelola data film favorit karena sintaksnya yang jauh lebih sederhana, ringan, dan ringkas dibandingkan Redux. Dengan middleware `persist` bawaan, data favorit pengguna otomatis tersimpan di `LocalStorage` secara aman tanpa perlu menulis logic penyimpanan manual.
+5. **Halaman Detail Terpisah (Bukan Popup/Modal)**: Diputuskan untuk membuat halaman detail tersendiri agar setiap film memiliki URL yang unik dan statis (*shareable*). Hal ini juga membantu mengurangi beban memori di halaman utama yang bisa terjadi jika merender terlalu banyak komponen modal secara bersamaan.
+6. **Infinite Scroll (Tanpa Tombol Pagination)**: Digunakan untuk memberikan pengalaman navigasi data yang mulus (*seamless*). Pengguna tidak perlu menekan tombol halaman berikutnya berulang kali, yang terbukti meningkatkan retensi pengguna pada aplikasi pencarian berbasis visual.
+7. **Struktur Kode Terpisah (Separation of Concerns)**: Memisahkan komponen UI (presentational) dengan hooks logika (behavioral) di dalam folder `src/components`, `src/hooks`, dan `src/services` agar kode lebih mudah dibaca, diuji, dan dikembangkan secara modular.
+8. **Tailwind CSS & Framer Motion (Styling & Animasi)**:
+   - **Tailwind CSS**: Menyediakan pendekatan *utility-first* yang mempercepat penulisan gaya yang responsif dan konsisten. Tailwind juga melakukan optimasi ukuran file CSS produksi hanya untuk kelas yang digunakan (*tree-shaking*).
+   - **Framer Motion**: Digunakan untuk menyuntikkan mikro-animasi (seperti transisi halus pada poster dan efek *stagger* pada daftar cast) agar aplikasi terasa lebih hidup, interaktif, dan memberikan kesan premium.
+9. **Pemilihan TMDB API (Bukan OMDb API atau API Lainnya)**: TMDB dipilih sebagai sumber data utama karena:
+   - **Kekayaan Media Aset**: Menyediakan gambar latar berkualitas tinggi (*backdrop*), foto profil aktor (*avatar cast*), data kru (sutradara), hingga tautan video trailer resmi YouTube. OMDb API cenderung berbasis teks dan membatasi data gambar berkualitas tinggi di versi gratis.
+   - **Endpoint & Filter Lanjutan**: Memiliki arsitektur endpoint pencarian dan kategori genre yang terstruktur dengan baik, mempermudah pengembangan fitur filter dan pengurutan di masa depan.
 
 ## Bonus & Kemungkinan Pengembangan (Improvements)
 
 Jika terdapat waktu alokasi pengembangan lebih, berikut fitur yang ingin saya tambahkan di masa depan:
 - **Filterisasi Lanjutan (Advanced Filtering):** Menambahkan sistem filter agar pengguna tidak hanya bisa mencari berdasarkan kata kunci judul, tetapi juga dapat menyaring film secara spesifik berdasarkan Genre, Tahun Rilis, atau kategori lainnya.
 - **Pengurutan Data (Sorting):** Menyediakan fitur untuk mengurutkan hasil pencarian atau daftar film (misalnya: dari rating yang paling tinggi, atau dari film yang paling baru dirilis).
+- **Proteksi API & Server-Side Rate Limiting**: Menerapkan sistem pembatasan request (*rate limiting*) di sisi server menggunakan Next.js Edge Middleware (misalnya dengan Redis/Upstash) pada route `/api/movies/*` demi melindungi endpoint dari eksploitasi pihak luar dan mencegah lonjakan biaya/limit TMDB API key.
+- **JSON-LD Structured Data untuk SEO**: Menyematkan kode JSON-LD dengan skema data terstruktur (Schema.org/Movie) di halaman detail film (`/movies/[id]`) yang dirender di server. Hal ini akan mempermudah bot perayap (crawler) mengenali isi halaman secara semantik dan memicu tampilan *rich snippets* di hasil pencarian mesin pencari.
+- **Offline-First Capabilities (PWA)**: Mengintegrasikan Service Worker (menggunakan Workbox) untuk mendownload dan menyimpan poster film serta informasi detail film yang dimasukkan pengguna ke daftar favorit. Pengguna tetap dapat mengakses halaman favorit mereka secara visual lengkap dengan poster filmnya walaupun dalam keadaan offline.
 - **Automated Testing:** Menambahkan pengujian kode otomatis (Unit Testing / E2E Testing) untuk memastikan fitur-fitur krusial seperti pencarian dan daftar favorit selalu berjalan normal tanpa error saat ada penambahan fitur baru.
