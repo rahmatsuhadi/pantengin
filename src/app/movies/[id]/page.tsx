@@ -32,21 +32,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function MovieDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
 
-  let movie: MovieDetail | null = null
-
-  try {
-    movie = await tmdbServer.getMovieDetailServer(id);
-  } catch (error) {
-    console.log("ERROR", error)
-  }
-
-
-  if (!movie) {
-    notFound();
-  }
-
-
-
+  const  movie = await tmdbServer.getMovieDetailServer(id);
+  
   return (
     <div>
       <HeaderDetailMovie />
