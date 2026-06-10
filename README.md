@@ -62,7 +62,7 @@ Sebuah aplikasi web pencarian film yang dibangun untuk memberikan pengalaman pen
 
 ## Cara Menjalankan Project (How to Run)
 
-Pastikan Node.js sudah terinstal di sistem Anda (direkomendasikan menggunakan versi Node terbaru atau melalui `nvm`).
+Pastikan Node.js sudah terinstal di sistem Anda.
 
 1. **Clone repository dan masuk ke folder project:**
    ```bash
@@ -101,20 +101,17 @@ Pastikan Node.js sudah terinstal di sistem Anda (direkomendasikan menggunakan ve
 ## Keputusan Arsitektur (Architectural Decisions)
 
 1. **Pemilihan Next.js (Framework Utama)**: Memilih Next.js karena merupakan framework modern standar industri yang menawarkan developer experience (DX) yang luar biasa dengan fitur App Router berbasis folder. Next.js mempermudah penulisan hybrid application dengan menggabungkan keunggulan Server Components (untuk efisiensi render) dan Client Components (untuk interaktivitas tinggi), serta memiliki optimasi performa *build* bawaan yang sangat baik.
-2. **Server-Side Rendering (SSR) untuk Halaman Detail Film**: Pengambilan data detail film (`/movies/[id]`) dilakukan di server menggunakan SSR. Keputusan ini didasari oleh:
-   - **Dynamic Metadata & SEO**: Memungkinkan pembuatan meta tag secara dinamis (seperti judul film, deskripsi, dan gambar poster OpenGraph) sebelum HTML dikirim ke browser. Ini sangat penting agar setiap tautan film yang dibagikan ke media sosial dapat menampilkan preview yang menarik dan mempermudah pengindeksan oleh search engine crawlers.
-   - **Zero Client-Side Spinner**: Semua data inti film dimuat langsung di server, sehingga halaman tersaji secara utuh saat dibuka pertama kali. Pengguna tidak perlu menghadapi jeda skeleton loader atau spinner tambahan untuk konten utamanya, yang secara signifikan mengoptimalkan First Contentful Paint (FCP).
+2. **Server-Side Rendering (SSR) untuk Halaman Detail Film**: Memproses halaman detail film (`/movies/[id]`) langsung di server demi mempercepat pemuatan halaman tanpa loading spinner (*Fast FCP*) dan mempermudah pembuatan *dynamic metadata* untuk kebutuhan SEO.
 3. **React Query (TanStack Query) untuk Data Fetching & Caching**: Digunakan di halaman utama untuk mengelola status pengambilan data API. Keunggulannya adalah manajemen *cache* otomatis dan fitur `useInfiniteQuery` yang mempermudah implementasi *Infinite Scroll* tanpa membebani browser dengan pemanggilan API berulang untuk kata kunci yang sama.
 4. **Zustand untuk State Management Client-Side**: Dipilih untuk mengelola data film favorit karena sintaksnya yang jauh lebih sederhana, ringan, dan ringkas dibandingkan Redux. Dengan middleware `persist` bawaan, data favorit pengguna otomatis tersimpan di `LocalStorage` secara aman tanpa perlu menulis logic penyimpanan manual.
 5. **Halaman Detail Terpisah (Bukan Popup/Modal)**: Diputuskan untuk membuat halaman detail tersendiri agar setiap film memiliki URL yang unik dan statis (*shareable*). Hal ini juga membantu mengurangi beban memori di halaman utama yang bisa terjadi jika merender terlalu banyak komponen modal secara bersamaan.
 6. **Infinite Scroll (Tanpa Tombol Pagination)**: Digunakan untuk memberikan pengalaman navigasi data yang mulus (*seamless*). Pengguna tidak perlu menekan tombol halaman berikutnya berulang kali, yang terbukti meningkatkan retensi pengguna pada aplikasi pencarian berbasis visual.
 7. **Struktur Kode Terpisah (Separation of Concerns)**: Memisahkan komponen UI (presentational) dengan hooks logika (behavioral) di dalam folder `src/components`, `src/hooks`, dan `src/services` agar kode lebih mudah dibaca, diuji, dan dikembangkan secara modular.
-8. **Tailwind CSS & Framer Motion (Styling & Animasi)**:
-   - **Tailwind CSS**: Menyediakan pendekatan *utility-first* yang mempercepat penulisan gaya yang responsif dan konsisten. Tailwind juga melakukan optimasi ukuran file CSS produksi hanya untuk kelas yang digunakan (*tree-shaking*).
-   - **Framer Motion**: Digunakan untuk menyuntikkan mikro-animasi (seperti transisi halus pada poster dan efek *stagger* pada daftar cast) agar aplikasi terasa lebih hidup, interaktif, dan memberikan kesan premium.
+8. **Tailwind CSS & Framer Motion**: Menggunakan Tailwind CSS untuk styling responsif yang cepat dan konsisten, dikombinasikan dengan Framer Motion untuk menambahkan mikro-animasi interaktif agar antarmuka terasa hidup dan premium.
 9. **Pemilihan TMDB API (Bukan OMDb API atau API Lainnya)**: TMDB dipilih sebagai sumber data utama karena:
    - **Kekayaan Media Aset**: Menyediakan gambar latar berkualitas tinggi (*backdrop*), foto profil aktor (*avatar cast*), data kru (sutradara), hingga tautan video trailer resmi YouTube. OMDb API cenderung berbasis teks dan membatasi data gambar berkualitas tinggi di versi gratis.
    - **Endpoint & Filter Lanjutan**: Memiliki arsitektur endpoint pencarian dan kategori genre yang terstruktur dengan baik, mempermudah pengembangan fitur filter dan pengurutan di masa depan.
+10. **Pemilihan pnpm sebagai Package Manager**: Memilih **pnpm** karena penyimpanannya disimpan sekali di disk lalu dibuatkan *hard link* pada folder *node_modules*, yang menghemat penyimpanan dan memotong waktu instalasi.
 
 ## Bonus & Kemungkinan Pengembangan (Improvements)
 
