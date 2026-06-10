@@ -1,5 +1,9 @@
 import { Genre, Movie, MovieDetail, MovieResponse } from "@/types";
 import { env } from "./config";
+import { cache } from 'react';
+import { getGenres } from "./tmdb-genres";
+import { notFound } from "next/navigation";
+
 
 export class TMDBService {
     private apiKey: string;
@@ -10,11 +14,15 @@ export class TMDBService {
         this.baseUrl = env.baseUrl
     }
 
+    private isValidTMDBId(id: string): boolean {
+        return /^\d+$/.test(id);
+    }
+
     public async fetchTMDB<T>(endpoint: string, params: Record<string, string> = {}, revalidate = 3600): Promise<T> {
         if (!this.apiKey) {
             throw new Error("TMDB API Key not defined")
         }
-        
+
 
         const queryParams = new URLSearchParams({
             api_key: this.apiKey,
@@ -25,31 +33,30 @@ export class TMDBService {
 
 
         const url = `${this.baseUrl}${endpoint}?${queryParams.toString()}`;
-        console.log(url)
 
         const res = await fetch(url, {
-            
+
             next: { revalidate }
         })
 
-        if (!res.ok) {
-            throw new Error("TMDB ERROR: " + res.status)
+
+        if (res.status === 404) {
+            return notFound();
         }
-        return res.json();
 
+        const response = await res.json()
+
+        if (!res.ok) {
+            throw new Error(`TMDB_API_ERROR: ${res.status}`);
+        }
+        return response
     }
 
-    public async getGenres(): Promise<Genre[]> {
-        "cache"
-        const data = await this.fetchTMDB<{ genres: Genre[] }>('/genre/movie/list');
-        return data.genres;
-    }
+
+
 
     public async getMovie(page = 1) {
         const today = new Date().toISOString().split('T')[0];
-        
-
-
         const data = await this.fetchTMDB<MovieResponse>('/discover/movie', {
             'page': page.toString(),
             'sort_by': 'primary_release_date.desc',
@@ -61,25 +68,38 @@ export class TMDBService {
         return { ...data, results: cleanData }
     }
 
+    public async getMovieDetailServer(id: string): Promise<MovieDetail> {
+        if (!this.isValidTMDBId(id)) {
+            return notFound()
+        }
+
+        const request = await this.fetchTMDB<MovieDetail>(`/movie/${id}`, {
+            append_to_response: 'videos,credits'
+        });
+
+        return { ...request, genre_names: request.genres.map((item) => item.name) }
+
+    }
+
 
     public async search(query: string, page = 1): Promise<MovieResponse> {
         if (!query.trim()) {
             return { page: 1, results: [], total_pages: 1, total_results: 0 };
         }
 
-        const data = await this.fetchTMDB<MovieResponse>('/search/movie',{
+        const data = await this.fetchTMDB<MovieResponse>('/search/movie', {
             query,
             page: page.toString()
         })
 
         const cleanData = await this.formatResults(data.results)
 
-        return {...data, results: cleanData}
+        return { ...data, results: cleanData }
 
     }
 
     private async formatResults(results: Movie[]): Promise<Movie[]> {
-        const genres = await this.getGenres();
+        const genres = await getGenres()
 
         return results.map((item) => {
             const hasReleaseDate = item.release_date && item.release_date.trim() !== "";
@@ -104,14 +124,7 @@ export class TMDBService {
         });
     }
 
-  public async getMovieDetailServer(id: string): Promise<MovieDetail> {
-    const request = await this.fetchTMDB<MovieDetail>(`/movie/${id}`, {
-      append_to_response: 'videos,credits'
-    });
 
-    return {...request, genre_names: request.genres.map((item) => item.name)}
-
-  }
 }
 
 export const tmdbServer = new TMDBService();
