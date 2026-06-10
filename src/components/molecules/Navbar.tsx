@@ -20,13 +20,7 @@ export function Navbar() {
             <BrandLogo />
 
             <nav className="flex items-center gap-1">
-              <Button
-                size="sm"
-                as={Link}
-                variant="ghost"
-                href={"/"}>
-                Home
-              </Button>
+              
               <Link
                 href="/favorites"
                 className="relative px-4 py-2 text-sm font-medium text-secondary hover:text-accent-secondary transition-colors rounded-full hover:bg-surface-2 group"
