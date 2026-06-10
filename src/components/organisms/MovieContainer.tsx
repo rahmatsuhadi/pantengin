@@ -79,29 +79,32 @@ export default function MovieContainer({ initialQuery = '' }: MovieContainerProp
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                    {isLoading ? (
-                        <MovieGridSkleton/>
-                    ) : isError ? (
-                        <ErrorState />
-                    ) : movies.length === 0 ? (
-                        <EmptyState isSearching={isSearching} query={debouncedSearch} />
-                    ) : (
-                        <>
-                            {isSearching && (
-                                <Text className="text-muted mb-6 font-medium">
-                                    Found {movies.length} movie{movies.length !== 1 ? "s" : ""} for &ldquo;{debouncedSearch}&rdquo;
-                                </Text>
-                            )}
+                {isLoading ? (
+                    <MovieGridSkleton />
+                ) : isError ? (
+                    <ErrorState />
+                ) : movies.length === 0 ? (
+                    <EmptyState isSearching={isSearching} query={debouncedSearch} />
+                ) : (
+                    <>
+                        {isSearching && (
+                            <Text className="text-muted mb-6 font-medium">
+                                Found {movies.length} movie{movies.length !== 1 ? "s" : ""} for &ldquo;{debouncedSearch}&rdquo;
+                            </Text>
+                        )}
 
-                            <MovieGrid
-                                movies={movies}
-                                isFetchingNextPage={isFetchingNextPage}
-                                skeletonArray={SKELETON_ARRAY}
-                            />
-                            {hasNextPage && <div ref={loadMoreRef} className="h-10 w-full mt-4" />}
-                        </>
-                    )}
+                        <MovieGrid
+                            movies={movies}
+                            isFetchingNextPage={isFetchingNextPage}
+                            skeletonArray={SKELETON_ARRAY}
+                        />
+                        {hasNextPage && <div ref={loadMoreRef} className="h-10 w-full mt-4" />}
+                    </>
+                )}
 
+                <div className="flex justify-center items-center w-full mt-10">
+                    {!hasNextPage && <Text>No more movies to show</Text>}
+                </div>
 
             </motion.div>
         </>
