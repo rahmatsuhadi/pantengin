@@ -31,6 +31,7 @@ export default function MovieContainer({ initialQuery = '' }: MovieContainerProp
 
     const [isMounted, setIsMounted] = useState(false);
 
+
     useEffect(() => {
         if (!isMounted) {
             if (initialQuery && !searchTerm) {

@@ -139,10 +139,16 @@ export function DetailContent({ movie }: DetailContentProps) {
                 className="flex flex-col sm:flex-row flex-wrap gap-3 w-full"
             >
                 {trailerUrl && (
-                    <Button as="a"
-                        href={trailerUrl}
-                        target="_blank"
-                        rel="noreferrer"
+                    <Button 
+                        onClick={() => {
+                            const trailerSection = document.getElementById('trailer-section');
+                            if (trailerSection) {
+                                trailerSection.scrollIntoView({ 
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        }}
                     >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z" />

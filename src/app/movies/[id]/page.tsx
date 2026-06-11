@@ -8,6 +8,7 @@ import { MovieDetail } from '@/types';
 import HeaderDetailMovie from '@/components/molecules/Movie/HeaderDetail';
 import { DetailContent } from '@/components/organisms/Movie/DetailContent';
 import MovieCastCard from '@/components/molecules/Movie/CastCard';
+import { TrailerSection } from '@/components/organisms/Movie/TrailerSection';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -62,6 +63,18 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
 
           <DetailContent movie={movie} />
         </div>
+
+        {movie.videos?.results && (() => {
+          const trailer = movie.videos.results.find(
+            v => v.type === 'Trailer' && v.site === 'YouTube'
+          );
+          return trailer ? (
+            <TrailerSection 
+              trailerKey={trailer.key} 
+              movieTitle={movie.title} 
+            />
+          ) : null;
+        })()}
 
         <MovieCastCard cast={movie.credits?.cast || []} />
       </div>
